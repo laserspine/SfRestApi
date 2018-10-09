@@ -20,5 +20,8 @@
             "name": "Nathan Alessandro",
             "email": "nalessandro@laserspineinstitute.com"
         }
-    ]
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.3"
+    }
 }
