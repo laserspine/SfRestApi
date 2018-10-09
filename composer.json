@@ -1,0 +1,24 @@
+{
+    "name": "nalessandro/salesforce-rest-api",
+    "description": "REST Api Methods for interacting with Salesforce",
+    "type": "library",
+    "require-dev": {
+        "phpunit/phpunit": "^6.4"
+    },
+    "autoload": {
+      "psr-4": {
+        "Salesforce\\": "src/"
+      }
+    },
+    "autoload-dev": {
+      "psr-4": {
+        "Tests\\": "tests/"
+      }
+    },
+    "authors": [
+        {
+            "name": "Nathan Alessandro",
+            "email": "nalessandro@laserspineinstitute.com"
+        }
+    ]
+}
