@@ -1,6 +1,6 @@
 <?php
 
-namespace Salseforce\Request;
+namespace Salseforce\Api;
 
 class Client extends Auth
 {
@@ -22,7 +22,7 @@ class Client extends Auth
   public function getAvailableResources()
   {
     $uri = sprintf('/services/data/%s', $this->apiVersion);
-    $response = $this->client->request('GET', $uri, [ 'headers' => $this->getHeaders()]);
+    $response = $this->guzzle->request('GET', $uri, [ 'headers' => $this->getHeaders()]);
 
     return json_decode($response->getBody(true), true);
   }

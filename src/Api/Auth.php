@@ -1,11 +1,10 @@
 <?php
 
-namespace Salesforce;
+namespace Salesforce\Api;
 
 use GuzzleHttp\Client;
-use Salesforce\Request\Request;
 
-class Auth extends BaseApi implements AuthInterface
+class Auth extends Base implements AuthInterface
 {
   /**
    * @var string

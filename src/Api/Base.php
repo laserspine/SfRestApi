@@ -1,8 +1,8 @@
 <?php
 
-namespace Salesforce;
+namespace Salesforce\Api;
 
-class BaseApi
+class Base
 {
   protected $apiVersion = 'v43.0';
 
