@@ -83,6 +83,7 @@ class Auth extends Base implements AuthInterface
   /**
    * Retrieve authorization access token
    * 
+   * @todo when getting access token autmatically update the server url
    * @return string
    */
   protected function getAccessToken() : string
@@ -114,16 +115,17 @@ class Auth extends Base implements AuthInterface
    * 
    * @return string
    */
-  protected function getHeaders() : string
+  protected function getHeaders() : array
   {
     $headers = array(
-      'content-type' => 'application/json',
-      'accept' => 'application/json',
-      'authorization' => sprintf('Bearer %s', $this->getAccessToken()),
-      'x-prettyprint' => 1,
-      'x-sfdc-session' => substr($this->getAccessToken(), strpos($this->getAccessToken(), '!'))
+      'content-type' => 'application/json'
+      ,'accept' => 'application/json'
+      ,'Authorization' => sprintf('OAuth %s', $this->getAccessToken())
+      ,'x-prettyprint' => 1
     );
     
+    $a = substr($this->getAccessToken(), strpos($this->getAccessToken(), '!'));
+
     return $headers;
   }
   
