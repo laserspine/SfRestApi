@@ -1,6 +1,8 @@
 <?php
 
-namespace Salseforce\Api;
+namespace Salesforce\Api;
+
+use Salesforce\Api\Auth;
 
 class Client extends Auth
 {
@@ -8,12 +10,18 @@ class Client extends Auth
   {
     parent::__construct($params);
   }
+
+  public function connect() 
+  {
+    $this->getVersions();
+  }
   
   public function getVersions()
   {
     $uri = '/services/data/';
-
-    return $this->client->request('GET', $uri);
+    $response = $this->guzzle->request('GET', $uri);
+    
+    return json_decode($response->getBody(true), true);
   }
 
   /**

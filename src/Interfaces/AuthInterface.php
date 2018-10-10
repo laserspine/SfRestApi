@@ -2,10 +2,10 @@
 
 namespace Salesforce\Interfaces;
 
-class AuthInterface
+interface AuthInterface
 {
-  static function getHeaders();
+  // protected function getHeaders();
   
-  static function getAccessToken();
+  // protected function getAccessToken();
 }
 

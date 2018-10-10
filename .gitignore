@@ -1,1 +1,4 @@
 vendor/
+
+# Config Files
+tests/Config.php

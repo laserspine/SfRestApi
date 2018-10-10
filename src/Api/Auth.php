@@ -3,6 +3,8 @@
 namespace Salesforce\Api;
 
 use GuzzleHttp\Client;
+use Salesforce\Interfaces\AuthInterface;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class Auth extends Base implements AuthInterface
 {
@@ -44,7 +46,7 @@ class Auth extends Base implements AuthInterface
   /**
    * @var GuzzleHttp\Client
    */
-  private $guzzle; 
+  protected $guzzle; 
   
   public function __construct (array $params)
   { 
@@ -53,7 +55,7 @@ class Auth extends Base implements AuthInterface
     $this->consumerKey = $params['key'];
     $this->consumerSecret = $params['secret'];
     $this->securityToken = $params['token'];
-    $this->baseUrl = array_key_exists('url') ? $params['url'] : $this->baseUrl;
+    $this->baseUrl = array_key_exists('url', $params) ? $params['url'] : $this->baseUrl;
     
     $this->guzzle = new Client(['base_uri' => $this->baseUrl]);
   }
@@ -65,7 +67,7 @@ class Auth extends Base implements AuthInterface
    * @param type $params
    * @throws \Exception
    */
-  public static function checkParams ($params): boolean
+  public static function checkParams ($params): bool
   {
     $arr = array('user', 'pass', 'key', 'secret', 'token');
     foreach($arr as $a)
@@ -74,6 +76,8 @@ class Auth extends Base implements AuthInterface
         throw new \Exception('');
       }
     }
+
+    return true;
   }
   
   /**
@@ -93,12 +97,12 @@ class Auth extends Base implements AuthInterface
       ];
 
       $uri = sprintf('%s?%s', '/services/oauth2/token', http_build_query($query));
-      $response = $this->client->request('POST', $uri);
+      $response = $this->guzzle->request('POST', $uri);
 
       if (200 == $response->getStatusCode()) {
         $body = json_decode($response->getBody(true), true);
         $this->accessToken = $body['access_token'];
-        $this->isAuthorized = true;
+        $this->setIsAuthorized();
       }
     }
 
@@ -128,7 +132,7 @@ class Auth extends Base implements AuthInterface
    * 
    * @return boolean
    */
-  protected function getIsAuthorized() : boolean
+  protected function getIsAuthorized() : bool
   {
     return $this->isAuthorized;
   }
