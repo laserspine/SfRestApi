@@ -38,7 +38,7 @@ class API
      */
     public function query(string $query)
     {
-        return $this->client->makeRequest('GET', 'query?q=' . $query);
+        return $this->client->request('GET', 'query?q=' . $query);
     }
 
     /**
@@ -52,13 +52,7 @@ class API
      */
     public function queryMore(string $uri)
     {
-        try {
-            $result = $this->client->request('GET', $uri, ['headers' => $this->getHeaders() ]);
-        } catch (GuzzleException $e) {
-            throw new \Exception( $e->getResponse()->getBody()->getContents() );
-        }
-
-        return json_decode($result->getBody()->getContents());
+        return $this->client->request('GET', $uri, ['headers' => $this->getHeaders() ]);
     }
 
     /**

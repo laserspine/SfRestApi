@@ -20,7 +20,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
 
     public function test_connection() {
         $this->api = new Api(Config::PARAMS);
-        $result = $this->api->getClient()->connect();
+        $result = $this->api->getClient()->testConnection();
 
         $this->assertTrue(true);
     }
