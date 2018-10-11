@@ -38,15 +38,7 @@ class API
      */
     public function query(string $query)
     {
-      $uri = str_replace(' ', '+', sprintf('%s%s', $this->baseUri.'/'.$this->apiVersion.'/query/?q=', $query));
-
-      try {
-        $result = $this->client->request('GET', $uri, [ 'headers' => $this->getHeaders()]);
-      } catch (GuzzleException $e) {
-        throw new \Exception( $e->getResponse()->getBody()->getContents() );
-      }
-
-      return json_decode($result->getBody()->getContents());
+        return $this->client->makeRequest('GET', 'query?q=' . $query);
     }
 
     /**

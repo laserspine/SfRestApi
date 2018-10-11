@@ -18,25 +18,31 @@ class ApiTest extends \PHPUnit\Framework\TestCase
         $this->api = null;
     }
 
-    public function test_connection() {
-        $this->api = new Api(Config::PARAMS);
-        $result = $this->api->getClient()->connect();
+    public function test_query() {
+        $query = 'SELECT Id FROM Lead WHERE LastName = \'Alessandro\'';
+        $result = $this->api->query($query);
 
-        $this->assertTrue(true);
+        $this->assertTrue($result->records[0]->Id !== null);
     }
 
-    public function test_get_versions()
-    {
-        $result = $this->api->getClient()->getVersions();
+    public function test_insert() {
 
-        $this->assertTrue(true);
     }
 
-    public function test_get_resources()
-    {
-        $result = $this->api->getClient()->getAvailableResources();
+    public function test_update() {
 
-        $this->assertTrue(true);
+    }
+
+    public function test_upsert_not_exist() {
+
+    }
+
+    public function test_upsert_exist() {
+
+    }
+
+    public function test_delete() {
+
     }
 
 }
