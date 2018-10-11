@@ -38,7 +38,7 @@ class API
      */
     public function query(string $query)
     {
-        return $this->client->request('GET', 'query?q=' . $query);
+        return $this->client->request('GET', '/query?q=' . $query);
     }
 
     /**
@@ -63,22 +63,8 @@ class API
      */
     public function insert(string $sobject, array $record)
     {
-        $uri = $this->baseUri . '/' . $this->apiVersion . '/sobjects/'.$sobject.'/';
-        try {
-            $result = $this->client->request('POST',
-                $uri,
-                [
-                    'headers' => $this->getHeaders(),
-                    'body' => json_encode($record)
-                ]
-            );
-        }
-        catch (GuzzleException $e)
-        {
-            throw new \Exception( $e->getMessage() );
-        }
-        
-        return $result;
+        $uri = '/sobjects/'.$sobject.'/';
+        return $this->client->request('POST', $uri, $record);
     }
 
     /**
@@ -89,29 +75,15 @@ class API
      */
     public function update(string $sobject, array $record)
     {
-
+        
     }
 
     public function upsert (string $object, array $record) {
 
     }
 
-    public function delete (string $sobject, array $record) {
-
-    }
-
-    protected function makeRequest (string $method, string $url, string $body) 
+    public function delete (string $sobject, string $id) 
     {
-        try
-        {
-          $respone = $this->client($method
-                              ,$url
-                              ,[
-                                  'headers' => $this->getHeaders()
-                                  ,'body' => $body
-                              ]);
-        } catch( GuzzleException $e ) {
-            // TODO HANDLE EXCEPTION
-        } 
+
     }
 }

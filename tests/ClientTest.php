@@ -39,4 +39,11 @@ class ClientTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(true);
     }
 
+    public function test_describe()
+    {
+        $result = $this->api->getClient()->describe('Account');
+
+        $this->assertTrue(true);
+    }
+
 }

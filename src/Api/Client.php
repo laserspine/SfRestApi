@@ -24,6 +24,11 @@ class Client extends Auth
     return json_decode($response->getBody(true));
   }
 
+  public function describe(String $object)
+  {
+    return $this->request('GET', '/sobjects/'.$object . '/describe');
+  }
+
   /**
   * @return array of Resources
   */
@@ -41,7 +46,7 @@ class Client extends Auth
   public function request(String $method, String $endpoint, array $data = []) : \stdClass
   {
     try {
-      $uri = str_replace(' ', '+', sprintf('%s', $this->baseUri.'/'.$this->apiVersion.'/'.$endpoint));
+      $uri = str_replace(' ', '+', sprintf('%s', $this->baseUri.'/'.$this->apiVersion.$endpoint));
       $result = $this->guzzle->request($method
                                       ,$uri
                                       ,['headers' => $this->getHeaders()
