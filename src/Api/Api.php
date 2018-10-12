@@ -2,7 +2,9 @@
 
 namespace Salesforce\Api;
 
-class Api
+use Salesforce\Interfaces\ApiInterface;
+
+class Api implements ApiInterface
 {
   protected $client;
 
@@ -28,7 +30,7 @@ class Api
    * @param string $query     The Query string you would like executed on Salesforce.
    * @return bool|mixed       Return False on exception otherwise returns array of records
    */
-  public function query(string $query)
+  public function query(string $query): ?\stdClass
   {
     return $this->client->request('GET', '/query?q=' . $query);
   }
@@ -53,7 +55,7 @@ class Api
    * @param string $sobject   The object to be updated
    * @param array $record     The record data with which to insert
    */
-  public function insert(string $sobject, array $record)
+  public function insert(string $sobject, array $record): ?\stdClass
   {
     $uri = '/sobjects/'.$sobject.'/';
    
@@ -66,7 +68,7 @@ class Api
    * @param string $sobject   The object to be updated
    * @param array $record     The record data with which to update
    */
-  public function update(String $sobject, array $record): ?string
+  public function update(String $sobject, array $record): ?\stdClass
   {
     $id = array_key_exists('Id',$record) ? $record['Id'] : $record['id'];
     $uri = '/sobjects/'.$sobject.'/'.$id;
@@ -76,7 +78,7 @@ class Api
     return $this->client->request('PATCH', $uri, $record);
   }
 
-  public function upsert (string $object, array $record, String $externalId = null) 
+  public function upsert (string $object, array $record, String $externalId = null): ?string
   {
     $id = array_key_exists('Id',$record) ? $record['Id'] : $record['id'];
     $uri = '/sobjects/'.$sobject;
