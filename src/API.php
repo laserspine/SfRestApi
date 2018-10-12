@@ -7,83 +7,87 @@ use Salesforce\Api\Client;
 
 class API
 {
-    protected $client;
+  protected $client;
 
-    /**
-     * RESTApi constructor.
-     *
-     * @param string $key
-     * @param string $secret
-     * @param string $user
-     * @param string $pass
-     * @param string $token
-     * @param string $baseUrl
-     */
-    public function __construct(array $params)
-    {
-      Auth::checkParams($params);
-      $this->client = new Client($params);
-    }
+  /**
+   * RESTApi constructor.
+   *
+   * @param string $key
+   * @param string $secret
+   * @param string $user
+   * @param string $pass
+   * @param string $token
+   * @param string $baseUrl
+   */
+  public function __construct(array $params)
+  {
+    Auth::checkParams($params);
+    $this->client = new Client($params);
+  }
 
-    public function getClient(): Client
-    {
-        return $this->client;
-    }
-    
-    /**
-     * Perform a SOQL query on Salesforce
-     *
-     * @param string $query     The Query string you would like executed on Salesforce.
-     * @return bool|mixed       Return False on exception otherwise returns array of records
-     */
-    public function query(string $query)
-    {
-        return $this->client->request('GET', '/query?q=' . $query);
-    }
+  public function getClient(): Client
+  {
+    return $this->client;
+  }
 
-    /**
-     * Query additional data over and above the maximum 2000 records returned
-     * in a Salesforce REST query.
-     *
-     * @param string $uri
-     *
-     * @return mixed
-     * @throws \Exception
-     */
-    public function queryMore(string $uri)
-    {
-        return $this->client->request('GET', $uri, ['headers' => $this->getHeaders() ]);
-    }
+  /**
+   * Perform a SOQL query on Salesforce
+   *
+   * @param string $query     The Query string you would like executed on Salesforce.
+   * @return bool|mixed       Return False on exception otherwise returns array of records
+   */
+  public function query(string $query)
+  {
+    return $this->client->request('GET', '/query?q=' . $query);
+  }
 
-    /**
-     * Function to insert a single record of an object
-     *
-     * @param string $sobject   The object to be updated
-     * @param array $record     The record data with which to insert
-     */
-    public function insert(string $sobject, array $record)
-    {
-        $uri = '/sobjects/'.$sobject.'/';
-        return $this->client->request('POST', $uri, $record);
-    }
+  /**
+   * Query additional data over and above the maximum 2000 records returned
+   * in a Salesforce REST query.
+   *
+   * @param string $uri
+   *
+   * @return mixed
+   * @throws \Exception
+   */
+  public function queryMore(string $uri)
+  {
+    return $this->client->request('GET', $uri, ['headers' => $this->getHeaders() ]);
+  }
 
-    /**
-     * Function to update a single record of an object
-     *
-     * @param string $sobject   The object to be updated
-     * @param array $record     The record data with which to update
-     */
-    public function update(string $sobject, array $record)
-    {
-        
-    }
+  /**
+   * Function to insert a single record of an object
+   *
+   * @param string $sobject   The object to be updated
+   * @param array $record     The record data with which to insert
+   */
+  public function insert(string $sobject, array $record)
+  {
+    $uri = '/sobjects/'.$sobject.'/';
+    return $this->client->request('POST', $uri, $record);
+  }
 
-    public function upsert (string $object, array $record) {
+  /**
+   * Function to update a single record of an object
+   *
+   * @param string $sobject   The object to be updated
+   * @param array $record     The record data with which to update
+   */
+  public function update(String $sobject, array $record)
+  {
+    $id = array_key_exists('Id',$record) ? $record['Id'] : $record['id'];
+    $uri = '/sobjects/'.$sobject.'/'.$id;
+    unset($record['Id']);
+    unset($record['id']);
+    return $this->client->request('PATCH', $uri, $record);
+  }
 
-    }
+  public function upsert (string $object, array $record) {
 
-    public function delete (string $sobject, string $id) 
-    {
+  }
 
-    }
+  public function delete (string $sobject, string $id) 
+  {
+
+  }
 }

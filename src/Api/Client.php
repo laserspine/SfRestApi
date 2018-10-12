@@ -32,18 +32,12 @@ class Client extends Auth
   /**
   * @return array of Resources
   */
-  public function getAvailableResources(): \stdClass
+  public function getAvailableResources()
   {
-    $uri = sprintf('/services/data/%s', $this->apiVersion);
-    $response = $this->guzzle->request('GET'
-                                  ,$uri
-                                  ,[ 'headers' => $this->getHeaders()]
-                                );
-
-    return json_decode($response->getBody(true));
+    return $this->request('GET', '');
   }
 
-  public function request(String $method, String $endpoint, array $data = []) : \stdClass
+  public function request(String $method, String $endpoint, array $data = [])
   {
     try {
       $uri = str_replace(' ', '+', sprintf('%s', $this->baseUri.'/'.$this->apiVersion.$endpoint));

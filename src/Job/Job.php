@@ -15,12 +15,12 @@ class Job implements JobInterface
    */
   protected function getJob(string $sobject, string $type)
   {
-      if(!$this->jobId)
-      {
-          return $this->createJob( strtolower($sobject), $type );
-      }
+    if(!$this->jobId)
+    {
+        return $this->createJob( strtolower($sobject), $type );
+    }
 
-      return true;
+    return true;
   }
   
   /**
@@ -32,36 +32,36 @@ class Job implements JobInterface
    */
   protected function createJob(string $obj, string $jobType)
   {
-      $uri = '/services/async/' . str_replace('v', '', $this->apiVersion) . '/job';
+    $uri = '/services/async/' . str_replace('v', '', $this->apiVersion) . '/job';
 
-      $headers = $this->getHeaders();
-      $headers['operation'] = $jobType;
-      $headers['object'] = $obj;
+    $headers = $this->getHeaders();
+    $headers['operation'] = $jobType;
+    $headers['object'] = $obj;
 
-      $body = array(
-          'operation' => $jobType,
-          'object' => $obj,
-          'contentType' => 'JSON'
-      );
+    $body = array(
+      'operation' => $jobType,
+      'object' => $obj,
+      'contentType' => 'JSON'
+    );
 
-      try {
-          $result = $this->client->request('POST',
-              $uri,
-              [
-                  'headers' => $headers,
-                  'body' => json_encode($body)
-              ]
-          );
-      }
-      catch (GuzzleException $e)
-      {
-          throw new \Exception( $e->getResponse()->getBody()->getContents() );
-      }
+    try {
+        $result = $this->client->request('POST',
+            $uri,
+            [
+                'headers' => $headers,
+                'body' => json_encode($body)
+            ]
+        );
+    }
+    catch (GuzzleException $e)
+    {
+        throw new \Exception( $e->getResponse()->getBody()->getContents() );
+    }
 
-      $job = json_decode($result->getBody()->getContents());
-      $this->jobId = $job->id;
+    $job = json_decode($result->getBody()->getContents());
+    $this->jobId = $job->id;
 
-      return true;
+    return true;
   }
   
   /**
@@ -71,25 +71,25 @@ class Job implements JobInterface
    */
   protected function closeJob()
   {
-      $uri = $uri = '/services/async/' . str_replace('v', '', $this->apiVersion) . '/job/' . $this->jobId;
+    $uri = $uri = '/services/async/' . str_replace('v', '', $this->apiVersion) . '/job/' . $this->jobId;
 
-      // TODO: CONVERT TO makeRequest();
-      try
-      {
-          $response = $this->client->request('POST',
-              $uri,
-              [
-                  'headers' => $this->getHeaders(),
-                  'body' => json_encode(array('state' => 'Closed'))
-              ]
-          );
-      }
-      catch (GuzzleException $e)
-      {
-          throw new \Exception( $e->getResponse()->getBody()->getContents() );
-      }
+    // TODO: CONVERT TO makeRequest();
+    try
+    {
+      $response = $this->client->request('POST',
+        $uri,
+        [
+          'headers' => $this->getHeaders(),
+          'body' => json_encode(array('state' => 'Closed'))
+        ]
+      );
+    }
+    catch (GuzzleException $e)
+    {
+      throw new \Exception( $e->getResponse()->getBody()->getContents() );
+    }
 
-      return true;
+    return true;
   }
 
   /**
@@ -104,29 +104,29 @@ class Job implements JobInterface
    */
   protected function sendNewBatch( string $sobject, string $type, string $records )
   {
-      $this->getJob( $sobject, $type );
+    $this->getJob( $sobject, $type );
 
-      $uri = '/services/async/' . str_replace('v', '', $this->apiVersion) . '/job/' . $this->jobId . '/batch';
+    $uri = '/services/async/' . str_replace('v', '', $this->apiVersion) . '/job/' . $this->jobId . '/batch';
 
-      try
-      {
-          $result = $this->client->request('POST',
-              $uri,
-              [
-                  'headers' => $this->getHeaders(),
-                  'body' => $records
-              ]
-          );
-      }
-      catch (GuzzleException $e)
-      {
-          throw new \Exception( $e->getResponse()->getBody()->getContents() );
-      }
+    try
+    {
+      $result = $this->client->request('POST',
+        $uri,
+        [
+          'headers' => $this->getHeaders(),
+          'body' => $records
+        ]
+      );
+    }
+    catch (GuzzleException $e)
+    {
+      throw new \Exception( $e->getResponse()->getBody()->getContents() );
+    }
 
-      $this->closeJob();
-      $this->jobId = '';
+    $this->closeJob();
+    $this->jobId = '';
 
-      return $result;
+    return $result;
   }
 }
 
