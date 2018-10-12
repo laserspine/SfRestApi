@@ -68,12 +68,12 @@ class API
   }
 
   /**
-   * Function to update a single record of an object
+   * Update Single Record
    *
    * @param string $sobject   The object to be updated
    * @param array $record     The record data with which to update
    */
-  public function update(String $sobject, array $record)
+  public function update(String $sobject, array $record): ?string
   {
     $id = array_key_exists('Id',$record) ? $record['Id'] : $record['id'];
     $uri = '/sobjects/'.$sobject.'/'.$id;
@@ -82,12 +82,20 @@ class API
     return $this->client->request('PATCH', $uri, $record);
   }
 
-  public function upsert (string $object, array $record) {
+  // public function upsert (string $object, array $record) {
 
-  }
-
-  public function delete (string $sobject, string $id) 
+  // }
+  
+  /**
+   * Delete Single Record
+   *
+   * @param string $sobject
+   * @param string $id
+   * @return null
+   */
+  public function delete (string $sobject, string $id): ?string
   {
-
+    $uri = '/sobjects/'.$sobject.'/'.$id;
+    return $this->client->request('DELETE', $uri);
   }
 }

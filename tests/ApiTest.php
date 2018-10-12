@@ -55,15 +55,22 @@ class ApiTest extends \PHPUnit\Framework\TestCase
     }
   }
 
-  public function test_upsert_not_exist() {
+  // public function test_upsert_not_exist() {
 
-  }
+  // }
 
-  public function test_upsert_exist() {
+  // public function test_upsert_exist() {
 
-  }
+  // }
 
   public function test_delete() {
+    $query = "SELECT Id FROM Lead WHERE email = 'test@nate.com' LIMIT 1";
+    $result = $this->api->query($query);
+    if(count($result->records)) {
+      $result = $this->api->delete('Lead', $result->records[0]->Id);
+      $this->assertTrue(is_null($result));
+    }
 
+    $this->assertTrue(true);
   }
 }
