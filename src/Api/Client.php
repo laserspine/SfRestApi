@@ -11,7 +11,7 @@ class Client extends Auth
     parent::__construct($params);
   }
 
-  public function testConnection(): array
+  public function testConnection(): void
   {
     $this->getVersions();
   }

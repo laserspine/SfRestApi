@@ -18,7 +18,6 @@ class API extends Salesforce
    */
   public function __construct(array $params)
   {
-    Auth::checkParams($params);
-    $this->client = new Client($params);
+    parent::__construct($params);
   }
 }
