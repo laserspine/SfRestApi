@@ -4,7 +4,28 @@ namespace Salesforce\Api;
 
 class CompositeApi
 {
-/**
+  /**
+   * @var Salesforce\Api\Client
+   */
+  protected $client;
+
+  /**
+   * RESTApi constructor.
+   *
+   * @param string $key
+   * @param string $secret
+   * @param string $user
+   * @param string $pass
+   * @param string $token
+   * @param string $baseUrl
+   */
+  public function __construct(array $params)
+  {
+    Auth::checkParams($params);
+    $this->client = new Api($params);
+  }
+
+  /**
    * --------------------------------------------------
    * Composite Request
    * --------------------------------------------------
@@ -20,23 +41,23 @@ class CompositeApi
    */
   public function compositeRequest (array $requests, string $type = 'batch')
   {
-      $uri = $this->baseUri . '/' . $this->apiVersion . '/composite/' . $type;
+    $uri = $this->baseUri . '/' . $this->apiVersion . '/composite/' . $type;
 
-      try
-      {
-          $response = $this->client->request('POST',
-              $uri,
-              [
-                  'headers' => $this->getHeaders(),
-                  'body' => json_encode( $requests )
-              ]
-          );
-      }
-      catch (GuzzleException $e)
-      {
-          throw new \Exception( $e->getResponse()->getBody()->getContents() );
-      }
+    try
+    {
+        $response = $this->client->request('POST',
+            $uri,
+            [
+                'headers' => $this->getHeaders(),
+                'body' => json_encode( $requests )
+            ]
+        );
+    }
+    catch (GuzzleException $e)
+    {
+        throw new \Exception( $e->getResponse()->getBody()->getContents() );
+    }
 
-      return $response;
+    return $response;
   }
 }
