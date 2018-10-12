@@ -45,13 +45,13 @@ class CompositeApi
 
     try
     {
-        $response = $this->client->request('POST',
-            $uri,
-            [
-                'headers' => $this->getHeaders(),
-                'body' => json_encode( $requests )
-            ]
-        );
+      $response = $this->client->request('POST',
+          $uri,
+          [
+              'headers' => $this->getHeaders(),
+              'body' => json_encode( $requests )
+          ]
+      );
     }
     catch (GuzzleException $e)
     {
