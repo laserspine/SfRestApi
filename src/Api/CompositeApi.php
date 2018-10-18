@@ -2,12 +2,19 @@
 
 namespace Salesforce\Api;
 
-class CompositeApi
+use Salesforce\Interfaces\ApiInterface;
+
+class CompositeApi implements ApiInterface
 {
   /**
    * @var Salesforce\Api\Client
    */
-  protected $client;
+  protected $api;
+
+  /**
+   * @var Boolean
+   */
+  protected $allOrNone ;
 
   /**
    * RESTApi constructor.
@@ -17,12 +24,12 @@ class CompositeApi
    * @param string $user
    * @param string $pass
    * @param string $token
-   * @param string $baseUrl
+   * @param string $getBaseUrl()
    */
   public function __construct(array $params)
   {
-    Auth::checkParams($params);
-    $this->client = new Api($params);
+    $this->api = new Api($params);
+    $this->unsetAllOrNone();
   }
 
   /**
@@ -39,25 +46,92 @@ class CompositeApi
    * @return mixed|\Psr\Http\Message\ResponseInterface
    * @throws \Exception
    */
-  public function compositeRequest (array $requests, string $type = 'batch')
+  public function request(array $requests, string $type = 'batch')
   {
-    $uri = $this->baseUri . '/' . $this->apiVersion . '/composite/' . $type;
-
-    try
-    {
-      $response = $this->client->request('POST',
-          $uri,
-          [
-              'headers' => $this->getHeaders(),
-              'body' => json_encode( $requests )
-          ]
-      );
-    }
-    catch (GuzzleException $e)
-    {
-        throw new \Exception( $e->getResponse()->getBody()->getContents() );
-    }
+    $response = $this->api->getClient()->request('POST'
+      ,'/composite/' . $type
+      ,array('batchRequests' => $requests)
+    );
 
     return $response;
   }
-}
+
+  /**
+   * Build Query Subrequest
+   *
+   * @param string $query
+   * @return \stdClass|null
+   */
+  public function query(string $query): ?\stdClass
+  {
+    $req = new \stdClass();
+    $req->method = 'GET';
+    $req->url = str_replace(' ', '+', $this->api->getClient()->getApiVersion() . '/query?q=' . $query);
+
+    return $req;
+  }
+
+  /**
+   * Build Insert Subrequest
+   *
+   * @param string $sobject
+   * @param array $record
+   * @return \stdClass|null
+   */
+  public function insert(string $sobject, array $record): ?\stdClass
+  {
+    $req = new \stdClass();
+    $req->method = 'POST';
+    $req->url = $this->api->getClient()->getApiVersion() . '/sobjects/'.$sobject.'/';
+    $req->body = json_encode($record);
+    $req->referenceId = $sobject;
+
+    return $req;
+  }
+  
+  /**
+   * Build Update Subrequest
+   *
+   * @param string $sobject
+   * @param array $record
+   * @return \stdClass|null
+   */
+  public function update(string $sobject, array $record): ?\stdClass
+  {
+    $req = new \stdClass();
+    $req->method = 'PATCH';
+    $req->url = $this->api->getClient()->getApiVersion() . '/sobjects/'.$sobject.'/' . $record['Id'];
+    unset($record['Id']);
+    $req->body = json_encode($record);
+    $req->referenceId = $sobject;
+
+    return $req;
+  }
+
+  /**
+   * Build Delte Subrequest
+   *
+   * @param string $sobject
+   * @param string $id
+   * @return string|null
+   */
+  public function delete(string $sobject, string $id): ?string
+  {
+    $req = new \stdClass();
+    $req->method = 'DELETE';
+    $req->url = $this->api->getClient()->getApiVersion() . '/sobjects/'.$sobject.'/' . $id;
+    $req->referenceId = $sobject;
+
+    return json_encode($req);
+  }
+
+  public function setAllOrNone()
+  {
+    $this->allOrNone = true;
+  }
+
+  public function unsetAllOrNone()
+  {
+    $this->allOrNone = false;
+  }
+} 

@@ -39,6 +39,7 @@ class Client extends Auth
 
   public function request(String $method, String $endpoint, array $data = []): ?\stdClass
   {
+    $dt = json_encode($data);
     try {
       $uri = str_replace(' ', '+', sprintf('%s', $this->baseUri.'/'.$this->apiVersion.$endpoint));
       $result = $this->guzzle->request($method
