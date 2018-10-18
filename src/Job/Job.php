@@ -13,11 +13,11 @@ class Job implements JobInterface
    * @param string $type      The type of job you are performing {update|insert}
    * @return bool|mixed       Return string $this->jobId or false
    */
-  protected function getJob(string $sobject, string $type)
+  protected function get(string $sobject, string $type)
   {
     if(!$this->jobId)
     {
-        return $this->createJob( strtolower($sobject), $type );
+      return $this->createJob( strtolower($sobject), $type );
     }
 
     return true;
@@ -30,7 +30,7 @@ class Job implements JobInterface
    * @param string $jobType   The process that will occur {insert|update|etc.}
    * @return bool
    */
-  protected function createJob(string $obj, string $jobType)
+  protected function create(string $obj, string $jobType)
   {
     $uri = '/services/async/' . str_replace('v', '', $this->apiVersion) . '/job';
 
@@ -45,17 +45,17 @@ class Job implements JobInterface
     );
 
     try {
-        $result = $this->client->request('POST',
-            $uri,
-            [
-                'headers' => $headers,
-                'body' => json_encode($body)
-            ]
-        );
+      $result = $this->client->request('POST',
+          $uri,
+          [
+              'headers' => $headers,
+              'body' => json_encode($body)
+          ]
+      );
     }
     catch (GuzzleException $e)
     {
-        throw new \Exception( $e->getResponse()->getBody()->getContents() );
+      throw new \Exception($e->getResponse()->getBody()->getContents() );
     }
 
     $job = json_decode($result->getBody()->getContents());
@@ -63,13 +63,17 @@ class Job implements JobInterface
 
     return true;
   }
+
+  protected function abort(string $obj, string $jobType)
+  {
+  }
   
   /**
    * Close Salesforce Job created for batch processing
    * 
    * @return boolean
    */
-  protected function closeJob()
+  protected function close()
   {
     $uri = $uri = '/services/async/' . str_replace('v', '', $this->apiVersion) . '/job/' . $this->jobId;
 
@@ -91,6 +95,9 @@ class Job implements JobInterface
 
     return true;
   }
+
+  protected function addBatch()
+  {}
 
   /**
    * Send new batch of data to Salesforce Bulk API for processing
