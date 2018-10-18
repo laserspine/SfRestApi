@@ -1,5 +1,5 @@
 {
-    "name": "nalessandro/salesforce-rest-api",
+    "name": "laserspine/salesforce-rest-api",
     "description": "REST Api Methods for interacting with Salesforce",
     "type": "library",
     "require": {
