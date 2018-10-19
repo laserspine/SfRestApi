@@ -4,7 +4,7 @@ namespace Salesforce\Api;
 
 use Salesforce\Interfaces\ApiInterface;
 
-class CompositeApi implements ApiInterface
+class CompositeApi implements CompositeApiInterface
 {
   /**
    * @var Salesforce\Api\Client
@@ -48,6 +48,11 @@ class CompositeApi implements ApiInterface
    */
   public function request(array $requests, string $type = 'batch')
   {
+    if ($type == 'batch')
+      $body = array('batchRequests' => $requests);
+    else
+      $body = array('compositeRequest' => $requests);
+
     $response = $this->api->getClient()->request('POST'
       ,'/composite/' . $type
       ,array('batchRequests' => $requests)
