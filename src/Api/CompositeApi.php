@@ -67,7 +67,7 @@ class CompositeApi implements CompositeInterface
    * @param string $query
    * @return \stdClass|null
    */
-  public function query(string $query): ?\stdClass
+  public function query(string $query, string $count): ?\stdClass
   {
     $req = new \stdClass();
     $req->method = 'GET';
@@ -83,7 +83,7 @@ class CompositeApi implements CompositeInterface
    * @param array $record
    * @return \stdClass|null
    */
-  public function insert(string $sobject, array $record): ?\stdClass
+  public function insert(string $sobject, array $record, string $count): ?\stdClass
   {
     $req = new \stdClass();
     $req->method = 'POST';
@@ -101,7 +101,7 @@ class CompositeApi implements CompositeInterface
    * @param array $record
    * @return \stdClass|null
    */
-  public function update(string $sobject, array $record): ?\stdClass
+  public function update(string $sobject, array $record, string $count): ?\stdClass
   {
     $req = new \stdClass();
     $req->method = 'PATCH';
@@ -120,7 +120,7 @@ class CompositeApi implements CompositeInterface
    * @param string $id
    * @return string|null
    */
-  public function delete(string $sobject, string $id): ?string
+  public function delete(string $sobject, string $id, string $count): ?string
   {
     $req = new \stdClass();
     $req->method = 'DELETE';
