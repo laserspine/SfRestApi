@@ -2,7 +2,7 @@
 
 namespace Salesforce\Api;
 
-use Salesforce\Interfaces\ApiInterface;
+use Salesforce\Interfaces\CompositeInterface;
 
 class CompositeApi implements CompositeInterface
 {
