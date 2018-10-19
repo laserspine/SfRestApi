@@ -2,7 +2,7 @@
 
 namespace Salesforce\Interfaces;
 
-interface ApiInterface
+interface CompositeInterface
 {
   public function query(string $query, string $count): ?\stdClass;
 
