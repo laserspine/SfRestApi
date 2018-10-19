@@ -4,7 +4,7 @@ namespace Salesforce\Api;
 
 use Salesforce\Interfaces\ApiInterface;
 
-class CompositeApi implements CompositeApiInterface
+class CompositeApi implements CompositeInterface
 {
   /**
    * @var Salesforce\Api\Client
