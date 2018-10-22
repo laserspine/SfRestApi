@@ -80,6 +80,6 @@ class CompositeApiTest extends \PHPUnit\Framework\TestCase
     $array = json_decode(json_encode($result), true);
 
     $result = $this->api->request([$array], '');
-    $this->assertFalse($result->hasErrors);
+    $this->assertTrue($result->compositeResponse[0]->body->done);
   }
 }
