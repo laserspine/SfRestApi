@@ -14,7 +14,7 @@ class CompositeApi implements CompositeInterface
   /**
    * @var Boolean
    */
-  protected $allOrNone ;
+  protected $allOrNone;
 
   /**
    * RESTApi constructor.
