@@ -21,7 +21,7 @@ class CompositeApiTest extends \PHPUnit\Framework\TestCase
   public function test_query()
   {
     $query = 'SELECT Id FROM Lead WHERE LastName = \'Alessandro\'';
-    $result = $this->api->query($query);
+    $result = $this->api->query($query, '1');
 
     $this->assertNotNull($result);
   }
@@ -76,10 +76,10 @@ class CompositeApiTest extends \PHPUnit\Framework\TestCase
   public function test_request()
   {
     $query = 'SELECT Id FROM Lead WHERE LastName = \'Alessandro\'';
-    $result = $this->api->query($query);
+    $result = $this->api->query($query, '1');
     $array = json_decode(json_encode($result), true);
 
-    $result = $this->api->request([$array]);
+    $result = $this->api->request([$array], '');
     $this->assertFalse($result->hasErrors);
   }
 }

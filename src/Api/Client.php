@@ -45,7 +45,7 @@ class Client extends Auth
       $result = $this->guzzle->request($method
                                       ,$uri
                                       ,['headers' => $this->getHeaders()
-                                          ,'body' => json_encode($data)]
+                                          ,'body' => json_encode($data, JSON_UNESCAPED_SLASHES)]
                                         );
     } catch (\Exception $e) {
       throw new \Exception($e->getResponse()->getBody()->getContents());

@@ -48,12 +48,10 @@ class CompositeApi implements CompositeInterface
    */
   public function request(array $requests, string $type = 'batch')
   {
-    if ($type === 'batch') {
+    if ($type === 'batch')
         $body = array('batchRequests' => $requests);
-    }
-    else {
+    else
         $body = array('compositeRequest' => $requests);
-    }
       
 
     $response = $this->api->getClient()->request('POST'
@@ -75,7 +73,7 @@ class CompositeApi implements CompositeInterface
     $req = new \stdClass();
     $req->method = 'GET';
     $req->referenceId = 'Query'.$count;
-    $req->url = str_replace(' ', '+', $this->api->getClient()->getApiVersion() . '/query?q=' . $query);
+    $req->url = str_replace(' ', '+', $this->api->getClient()->getBaseUri() . '/'. $this->api->getClient()->getApiVersion() . '/query?q=' . $query);
 
     return $req;
   }
@@ -91,7 +89,7 @@ class CompositeApi implements CompositeInterface
   {
     $req = new \stdClass();
     $req->method = 'POST';
-    $req->url = $this->api->getClient()->getApiVersion() . '/sobjects/'.$sobject.'/';
+    $req->url = $this->api->getClient()->getBaseUri() . '/'. $this->api->getClient()->getApiVersion() . '/sobjects/'.$sobject.'/';
     $req->body = json_encode($record);
     $req->referenceId = $sobject.$count;
 
@@ -109,7 +107,7 @@ class CompositeApi implements CompositeInterface
   {
     $req = new \stdClass();
     $req->method = 'PATCH';
-    $req->url = $this->api->getClient()->getApiVersion() . '/sobjects/'.$sobject.'/' . $record['Id'];
+    $req->url = $this->api->getClient()->getBaseUri() . '/'. $this->api->getClient()->getApiVersion() . '/sobjects/'.$sobject.'/' . $record['Id'];
     unset($record['Id']);
     $req->body = json_encode($record);
     $req->referenceId = $sobject.count;
@@ -128,7 +126,7 @@ class CompositeApi implements CompositeInterface
   {
     $req = new \stdClass();
     $req->method = 'DELETE';
-    $req->url = $this->api->getClient()->getApiVersion() . '/sobjects/'.$sobject.'/' . $id;
+    $req->url = $this->api->getClient()->getBaseUri() . '/'. $this->api->getClient()->getApiVersion() . '/sobjects/'.$sobject.'/' . $id;
     $req->referenceId = $sobject.count;
 
     return json_encode($req);
