@@ -37,29 +37,17 @@ class Client extends Auth
     return $this->request('GET', '');
   }
 
-  public function request(String $method, String $endpoint, array $data = []): ?\stdClass
+  public function request(String $method, String $endpoint, array $data = [], bool $isCstm = false): ?\stdClass
   {
     $dt = json_encode($data);
+    
+    $uri = str_replace(' ', '+', sprintf('%s', $this->baseUri.'/'.$this->apiVersion.$endpoint));
+    if($isCstm)
+      $uri = $endpoint;
+
     try {
-      $uri = str_replace(' ', '+', sprintf('%s', $this->baseUri.'/'.$this->apiVersion.$endpoint));
       $result = $this->guzzle->request($method
                                       ,$uri
-                                      ,['headers' => $this->getHeaders()
-                                          ,'body' => json_encode($data, JSON_UNESCAPED_SLASHES)]
-                                        );
-    } catch (\Exception $e) {
-      throw new \Exception($e->getResponse()->getBody()->getContents());
-    }
-
-    return json_decode($result->getBody()->getContents());
-  }
-
-  public function requestCustom(String $method, String $endpoint, array $data = []): ?\stdClass
-  {
-    $dt = json_decode($data);
-    try {
-      $result = $this->guzzle->request($method
-                                      ,$endpoint
                                       ,['headers' => $this->getHeaders()
                                           ,'body' => json_encode($data, JSON_UNESCAPED_SLASHES)]
                                         );

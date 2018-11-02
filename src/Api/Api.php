@@ -115,6 +115,6 @@ class Api implements ApiInterface
    */
   public function custom(string $method, string $uri, array $data): \stdClass
   {
-    return $this->client->requestCustom($method, $uri, $data);
+    return $this->client->request($method, $uri, $data, true);
   }
 }
