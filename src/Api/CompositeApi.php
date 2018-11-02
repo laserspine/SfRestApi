@@ -90,7 +90,7 @@ class CompositeApi implements CompositeInterface
     $req = new \stdClass();
     $req->method = 'POST';
     $req->url = $this->api->getClient()->getBaseUri() . '/'. $this->api->getClient()->getApiVersion() . '/sobjects/'.$sobject.'/';
-    $req->body = json_encode($record);
+    $req->body = $record;
     $req->referenceId = $sobject.$count;
 
     return $req;
@@ -107,9 +107,11 @@ class CompositeApi implements CompositeInterface
   {
     $req = new \stdClass();
     $req->method = 'PATCH';
-    $req->url = $this->api->getClient()->getBaseUri() . '/'. $this->api->getClient()->getApiVersion() . '/sobjects/'.$sobject.'/' . $record['Id'];
+    $req->url = $this->api->getClient()->getBaseUri() . '/'
+                  . $this->api->getClient()->getApiVersion() 
+                  . '/sobjects/'.$sobject.'/' . $record['Id'];
     unset($record['Id']);
-    $req->body = json_encode($record);
+    $req->body = $record;
     $req->referenceId = $sobject.$count;
 
     return $req;
