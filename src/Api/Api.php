@@ -102,4 +102,19 @@ class Api implements ApiInterface
    
     return $this->client->request('DELETE', $uri);
   }
+
+  /**
+   * Custom Endpoint
+   * currently only set to hit /services/3pcs on LaserSpine Instance
+   * @todo build out for full custom REST
+   *
+   * @param string $method
+   * @param string $uri
+   * @param array $data
+   * @return string
+   */
+  public function custom(string $method, string $uri, array $data): \stdClass
+  {
+    return $this->client->requestCustom($method, $uri, $data);
+  }
 }

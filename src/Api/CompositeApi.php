@@ -73,7 +73,7 @@ class CompositeApi implements CompositeInterface
     $req = new \stdClass();
     $req->method = 'GET';
     $req->referenceId = 'Query'.$count;
-    $req->url = str_replace(' ', '+', $this->api->getClient()->getBaseUri() . '/'. $this->api->getClient()->getApiVersion() . '/query?q=' . $query);
+    $req->url = str_replace(' ', '+', $this->api->getClient()->getBaseUri() . '/'. $this->api->getClient()->getApiVersion() . '/query/?q=' . $query);
 
     return $req;
   }
@@ -110,7 +110,7 @@ class CompositeApi implements CompositeInterface
     $req->url = $this->api->getClient()->getBaseUri() . '/'. $this->api->getClient()->getApiVersion() . '/sobjects/'.$sobject.'/' . $record['Id'];
     unset($record['Id']);
     $req->body = json_encode($record);
-    $req->referenceId = $sobject.count;
+    $req->referenceId = $sobject.$count;
 
     return $req;
   }
@@ -127,9 +127,29 @@ class CompositeApi implements CompositeInterface
     $req = new \stdClass();
     $req->method = 'DELETE';
     $req->url = $this->api->getClient()->getBaseUri() . '/'. $this->api->getClient()->getApiVersion() . '/sobjects/'.$sobject.'/' . $id;
-    $req->referenceId = $sobject.count;
+    $req->referenceId = $sobject.$count;
 
     return json_encode($req);
+  }
+
+  /**
+   * Custom Endpoint
+   * currently only set to hit /services/3pcs on LaserSpine Instance
+   * @todo build out for full custom REST
+   *
+   * @param string $method
+   * @param string $uri
+   * @param array $data
+   * @return string
+   */
+  public function custom(string $method, string $uri, array $data): \stdClass
+  {
+    $req = new \stdClass();
+    $request->method = $method;
+    $request->url = $uri;
+    $request->body = json_encode($data);
+
+    return $req;
   }
 
   public function setAllOrNone()

@@ -53,6 +53,22 @@ class Client extends Auth
 
     return json_decode($result->getBody()->getContents());
   }
+
+  public function requestCustom(String $method, String $endpoint, array $data = []): ?\stdClass
+  {
+    $dt = json_decode($data);
+    try {
+      $result = $this->guzzle->request($method
+                                      ,$endpoint
+                                      ,['headers' => $this->getHeaders()
+                                          ,'body' => json_encode($data, JSON_UNESCAPED_SLASHES)]
+                                        );
+    } catch (\Exception $e) {
+      throw new \Exception($e->getResponse()->getBody()->getContents());
+    }
+
+    return json_decode($result->getBody()->getContents());
+  }
 }
 
 
