@@ -4,7 +4,7 @@
     "type": "library",
     "version": "dev-master",
     "require": {
-      "php": ">=7.2",
+      "php": ">=7.0",
         "guzzlehttp/guzzle": "^6.3"
     },
     "require-dev": {
