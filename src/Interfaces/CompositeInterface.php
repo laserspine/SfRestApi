@@ -4,11 +4,11 @@ namespace Salesforce\Interfaces;
 
 interface CompositeInterface
 {
-  public function query(string $query, string $count): ?\stdClass;
+  public function query(string $query, string $count);
 
-  public function insert(string $sobject, array $record, string $count): ?\stdClass;
+  public function insert(string $sobject, array $record, string $count);
   
-  public function update(string $sobject, array $record, string $count): ?\stdClass;
+  public function update(string $sobject, array $record, string $count);
 
-  public function delete(string $sobject, string $id, string $count): ?string;
+  public function delete(string $sobject, string $id, string $count);
 }

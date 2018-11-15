@@ -67,7 +67,7 @@ class Auth extends Base implements AuthInterface
    * @param type $params
    * @throws \Exception
    */
-  public static function checkParams ($params): bool
+  public static function checkParams ($params)
   {
     $arr = array('user', 'pass', 'key', 'secret', 'token');
     foreach($arr as $a)
@@ -86,7 +86,7 @@ class Auth extends Base implements AuthInterface
    * @todo when getting access token autmatically update the server url
    * @return string
    */
-  protected function getAccessToken() : string
+  protected function getAccessToken()
   {
     if (null === $this->accessToken) {
       $query = [
@@ -115,7 +115,7 @@ class Auth extends Base implements AuthInterface
    * 
    * @return string
    */
-  protected function getHeaders() : array
+  protected function getHeaders()
   {
     $headers = array(
       'content-type' => 'application/json'
@@ -134,12 +134,12 @@ class Auth extends Base implements AuthInterface
    * 
    * @return boolean
    */
-  protected function getIsAuthorized() : bool
+  protected function getIsAuthorized()
   {
     return $this->isAuthorized;
   }
   
-  protected function setIsAuthorized() : self
+  protected function setIsAuthorized()
   {
     $this->isAuthorized = true;
     

@@ -11,12 +11,12 @@ class Client extends Auth
     parent::__construct($params);
   }
 
-  public function testConnection(): void
+  public function testConnection()
   {
     $this->getVersions();
   }
   
-  public function getVersions(): array
+  public function getVersions()
   {
     $uri = '/services/data/';
     $response = $this->guzzle->request('GET', $uri);
@@ -24,7 +24,7 @@ class Client extends Auth
     return json_decode($response->getBody(true));
   }
 
-  public function describe(String $object): ?\stdClass
+  public function describe(String $object)
   {
     return $this->request('GET', '/sobjects/'.$object . '/describe');
   }
@@ -32,12 +32,12 @@ class Client extends Auth
   /**
   * @return array of Resources
   */
-  public function getAvailableResources(): ?\stdClass
+  public function getAvailableResources()
   {
     return $this->request('GET', '');
   }
 
-  public function request(String $method, String $endpoint, array $data = []): ?\stdClass
+  public function request(String $method, String $endpoint, array $data = [])
   {
     $dt = json_encode($data);
     try {

@@ -19,7 +19,7 @@ class Api implements ApiInterface
     $this->client = new Client($params);
   }
 
-  public function getClient(): Client
+  public function getClient()
   {
     return $this->client;
   }
@@ -30,7 +30,7 @@ class Api implements ApiInterface
    * @param string $query     The Query string you would like executed on Salesforce.
    * @return bool|mixed       Return False on exception otherwise returns array of records
    */
-  public function query(string $query): ?\stdClass
+  public function query(string $query)
   {
     return $this->client->request('GET', '/query?q=' . $query);
   }
@@ -55,7 +55,7 @@ class Api implements ApiInterface
    * @param string $sobject   The object to be updated
    * @param array $record     The record data with which to insert
    */
-  public function insert(string $sobject, array $record): ?\stdClass
+  public function insert(string $sobject, array $record)
   {
     $uri = '/sobjects/'.$sobject.'/';
    
@@ -68,7 +68,7 @@ class Api implements ApiInterface
    * @param string $sobject   The object to be updated
    * @param array $record     The record data with which to update
    */
-  public function update(String $sobject, array $record): ?\stdClass
+  public function update(String $sobject, array $record)
   {
     $id = array_key_exists('Id',$record) ? $record['Id'] : $record['id'];
     $uri = '/sobjects/'.$sobject.'/'.$id;
@@ -78,7 +78,7 @@ class Api implements ApiInterface
     return $this->client->request('PATCH', $uri, $record);
   }
 
-  public function upsert (string $object, array $record, String $externalId = null): ?string
+  public function upsert (string $object, array $record, String $externalId = null)
   {
     $id = array_key_exists('Id',$record) ? $record['Id'] : $record['id'];
     $uri = '/sobjects/'.$sobject;
@@ -96,7 +96,7 @@ class Api implements ApiInterface
    * @param string $id
    * @return null
    */
-  public function delete (string $sobject, string $id): ?string
+  public function delete (string $sobject, string $id)
   {
     $uri = '/sobjects/'.$sobject.'/'.$id;
    

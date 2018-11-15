@@ -10,7 +10,7 @@ class Base
   
   protected $baseUrl = 'https://salesforce.com';
 
-  public function getApiVersion () : string 
+  public function getApiVersion ()  
   {
     return $this->apiVersion;
   }
@@ -21,7 +21,7 @@ class Base
    * @param \Salesforce\String $version
    * @return \self
    */
-  public function setApiVersion (String $version) : self
+  public function setApiVersion (String $version) 
   {
     $this->apiVersion = $version;
 
@@ -33,7 +33,7 @@ class Base
    * 
    * @return string
    */
-  public function getBaseUri () : string
+  public function getBaseUri () 
   {
     return $this->baseUri;
   }
@@ -44,7 +44,7 @@ class Base
    * @param \Salesforce\String $uri
    * @return \self
    */
-  public function setBaseUri (String $uri) : self
+  public function setBaseUri (String $uri) 
   {
     $this->baseUri = $uri;
 
@@ -56,7 +56,7 @@ class Base
    * 
    * @return string
    */
-  public function getBaseUrl () : string
+  public function getBaseUrl () 
   {
     return $this->baseUrl;
   }
@@ -67,7 +67,7 @@ class Base
    * @param \Salesforce\String $url
    * @return \self
    */
-  public function setBaseUrl (String $url) : self
+  public function setBaseUrl (String $url) 
   {
     $this->baseUrl = $url;
     
